@@ -2,16 +2,50 @@
 <script lang="ts">
 export default {
   props: ["bomb"],
+  data() {
+    return {isClicked: false}
+  },
   setup(props) {
     null;
   },
+  methods: {
+    handleClick() {
+      if(this.isClicked) return
+      else this.isClicked = true
+
+      if(this.bomb.bomb) this.$emit("BOMB")
+    }
+
+  }
+
 };
 </script>
 
 <template>
   <div class="container">
-    <div :class="{ bomb: this.bomb.bomb }" class="cell {{this.bomb.count}}">
-      {{ this.bomb.bomb ? "*" : this.bomb.count }}
+    <div
+      @BOMB="this.handleClick()"
+      class="hidden"
+      v-if="!this.isClicked"
+      @click.capture="this.handleClick()"
+    ></div>
+    <div
+      v-if="this.isClicked"
+      class="cell"
+      :class="{
+        bomb: this.bomb.bomb,
+        one: this.bomb.count === 1,
+        two: this.bomb.count === 2,
+        three: this.bomb.count === 3,
+        four: this.bomb.count === 4,
+        five: this.bomb.count === 5,
+        six: this.bomb.count === 6,
+        seven: this.bomb.count === 7,
+        eight: this.bomb.count === 8,
+        none: this.bomb.count === 0,
+      }"
+    >
+      {{ this.bomb.bomb ? "💣" : this.bomb.count }}
     </div>
   </div>
 </template>
@@ -21,15 +55,62 @@ export default {
   display: flex;
   left: 100%;
 }
+
+.hidden {
+  text-align: center;
+  width: 2em;
+  height: 2em;
+  border: 1px solid rgba(0, 0, 128, 0.5);
+  color: greenyellow;
+  background-color: black;
+}
 .cell {
   text-align: center;
   width: 2em;
   height: 2em;
-  border: 1px solid pink;
+  border: 1px solid rgba(0, 0, 128, 0.5);
   color: greenyellow;
+  background-color: gray;
 }
 
 .bomb {
-  color: red;
+  color: red !important;
+}
+
+.none {
+  color: gray;
+  background-color: gray;
+}
+
+.one {
+  color: #8affa9;
+}
+
+.two {
+  color: #f5f36c;
+}
+
+.three {
+  color: #ffb85c;
+}
+
+.four {
+  color: #ff7f3b;
+}
+
+.five {
+  color: #fc4242;
+}
+
+.six {
+  color: #d757fa;
+}
+
+.seven {
+  color: #d757fa;
+}
+
+.eight {
+  color: #d757fa;
 }
 </style>
