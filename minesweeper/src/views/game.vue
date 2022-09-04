@@ -14,7 +14,7 @@ export default {
     const board = gameData().getBoard;
     return { rowCount, cellCount, board };
   },
-  value(): Array<Array<number | string>> {
+  value() {
     return gameData().getBoard;
   },
 };

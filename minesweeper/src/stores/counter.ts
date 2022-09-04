@@ -6,8 +6,14 @@ export const gameData = defineStore({
   state: () => ({
     x: 10,
     y: 10,
+    /**
+     * @param bomb is cell a bomb
+     * @param position x and y position of cell
+     * @param coun: amount of bombs around cell
+     */
     board: [[{ bomb: true, position: [0, 0], count: 0 }]],
     bombs: 10,
+    gameOver: false,
   }),
   getters: {
     getx: (state) => state.x,
@@ -15,6 +21,7 @@ export const gameData = defineStore({
     getBombs: (state) => state.bombs,
     getData: (state) => [state.x, state.y],
     getBoard: (state) => state.board,
+    isGameOver: (state) => state.gameOver,
   },
   actions: {
     setSize(x: number, y: number, bombs: number) {
@@ -24,6 +31,7 @@ export const gameData = defineStore({
     },
     async createBoard() {
       this.board = [[{ bomb: true, position: [0, 0], count: 0 }]];
+      this.gameOver = false;
       this.setup();
     },
     setup() {
@@ -62,16 +70,8 @@ export const gameData = defineStore({
         }
       }
     },
-    checkNearBombs(x: number, y: number) {
-      const board = this.board;
-      let bombcount = 0;
-      for (let i = -1; i < 1; i++) {
-        for (let j = -1; j < 1; j++) {
-          if (board[x + i][y + j].bomb) bombcount++;
-        }
-      }
-      board[x][y].count = bombcount;
-      console.log(bombcount);
-    },
+    endGame() {
+      this.gameOver = true;
+    }
   },
 });

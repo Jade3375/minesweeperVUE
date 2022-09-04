@@ -1,9 +1,12 @@
 <!-- eslint-disable prettier/prettier -->
 <script lang="ts">
+
+import { gameData } from "@/stores/counter";
+
 export default {
   props: ["bomb"],
   data() {
-    return {isClicked: false}
+    return {isClicked: false, gameStore: gameData}
   },
   setup(props) {
     null;
@@ -13,7 +16,7 @@ export default {
       if(this.isClicked) return
       else this.isClicked = true
 
-      if(this.bomb.bomb) this.$emit("BOMB")
+      if(this.bomb.bomb) this.gameStore().endGame()
     }
 
   }
@@ -26,11 +29,11 @@ export default {
     <div
       @BOMB="this.handleClick()"
       class="hidden"
-      v-if="!this.isClicked"
+      v-if="!this.isClicked && !this.gameStore().isGameOver"
       @click.capture="this.handleClick()"
     ></div>
     <div
-      v-if="this.isClicked"
+      v-if="this.isClicked || this.gameStore().isGameOver"
       class="cell"
       :class="{
         bomb: this.bomb.bomb,
@@ -54,6 +57,8 @@ export default {
 .container {
   display: flex;
   left: 100%;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .hidden {
