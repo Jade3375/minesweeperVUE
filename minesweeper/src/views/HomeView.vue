@@ -26,22 +26,32 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="formContainer">
-    <form action="">
-      <label for="sizex">Size X</label>
-      <input type="number" name="sizex" id="sizex" /><br />
-      <label for="sizey">Size Y</label>
-      <input type="number" name="sizey" id="sizey" /><br />
-      <label for="bombs">bombs</label>
-      <input type="number" name="bonmbs" id="bombs" /> <br />
-      <div class="play">
-        <div class="playBTN" @click="this.pressPlay()">Play</div>
-      </div>
-    </form>
+  <div class="container">
+    <div class="formContainer">
+      <form action="">
+        <label for="sizex">Size X</label>
+        <input type="number" name="sizex" id="sizex" /><br />
+        <label for="sizey">Size Y</label>
+        <input type="number" name="sizey" id="sizey" /><br />
+        <label for="bombs">bombs</label>
+        <input type="number" name="bonmbs" id="bombs" /> <br />
+        <div class="play">
+          <div class="playBTN" @click="this.pressPlay()">Play</div>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
 <style scoped>
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+}
+
 .formContainer {
   display: flex;
 }
@@ -55,7 +65,7 @@ export default defineComponent({
 
 .play {
   position: relative;
-  left: 50%;
+  left: 40%;
 }
 
 .playBTN {

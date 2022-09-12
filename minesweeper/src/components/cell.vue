@@ -1,26 +1,37 @@
-<!-- eslint-disable prettier/prettier -->
 <script lang="ts">
-
 import { gameData } from "@/stores/counter";
 
 export default {
   props: ["bomb"],
   data() {
-    return {isClicked: false, gameStore: gameData}
+    return {
+      isClicked: this.bomb.revealed,
+      gameStore: gameData,
+      isFlag: false,
+    };
   },
   setup(props) {
     null;
   },
   methods: {
     handleClick() {
-      if(this.isClicked) return
-      else this.isClicked = true
+      if (this.isClicked) return;
+      if (this.bomb.revealed) return;
 
-      if(this.bomb.bomb) this.gameStore().endGame()
-    }
+      if (this.bomb.count === 0) {
+        this.gameStore().clearBlanks(
+          this.bomb.position[0],
+          this.bomb.position[1]
+        );
+      } else this.isClicked = true;
 
-  }
-
+      if (this.bomb.bomb) this.gameStore().endGame();
+    },
+    r_click(e) {
+      this.gameStore().flagTile(this.bomb.position[0], this.bomb.position[1]);
+      e.preventDefault();
+    },
+  },
 };
 </script>
 
@@ -29,11 +40,14 @@ export default {
     <div
       @BOMB="this.handleClick()"
       class="hidden"
-      v-if="!this.isClicked && !this.gameStore().isGameOver"
+      v-if="
+        !this.isClicked && !this.gameStore().isGameOver && !this.bomb.revealed
+      "
+      @contextmenu.prevent="this.r_click"
       @click.capture="this.handleClick()"
     ></div>
     <div
-      v-if="this.isClicked || this.gameStore().isGameOver"
+      v-if="this.isClicked || this.gameStore().isGameOver || this.bomb.revealed"
       class="cell"
       :class="{
         bomb: this.bomb.bomb,

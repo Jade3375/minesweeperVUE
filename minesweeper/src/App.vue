@@ -6,8 +6,12 @@
 </template>
 
 <style scoped>
+.main {
+  height: 90vh;
+}
 .nav {
   width: 100%;
+  min-width: 100%;
   background-color: rgb(119, 11, 129);
   height: 3em;
 }
